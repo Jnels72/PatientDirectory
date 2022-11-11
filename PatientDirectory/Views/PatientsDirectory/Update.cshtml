@@ -1,0 +1,68 @@
+﻿@model PatientDirectoyViewModel
+@using PatientDirectory.DataAccess.Models
+@using PatientDirectory.Models
+
+
+@{
+    string pageType = Model.CurrentPatient.PatientID > 0 ? "Update Patient" : "Create Patient";
+
+    ViewData["Title"] = $"Patient Directory | {pageType}";
+}
+
+<form action="~/PatientsDirectory/Index" method="post">
+    <div>
+        <div class="row">
+            <div class="col-6 offset-3 text-center">
+                <h1 class="display-4" style="margin: 20px 0px;">@pageType</h1>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-3 offset-md-3 form-group">
+                <label>Patient Name: </label>
+                <input type="text" class="form-control" name="patientName" value="@Model.CurrentPatient.PatientName" />
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Patient Number: </label>
+                <input type="text" class="form-control" name="patientNumber" value="@Model.CurrentPatient.PatientNumber" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3 form-group">
+                <label>Patient Address: </label>
+                <input type="tel" class="form-control" name="patientAddress" value="@Model.CurrentPatient.PatientAddress" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3 form-group">
+                <label>Emergency Contact: </label>
+                <input type="text" class="form-control" name="emergencyContact" value="@Model.CurrentPatient.EmergencyContact" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3 form-group">
+                <label>Emergency Contact Number: </label>
+                <input type="tel" class="form-control" name="emergencyContactNumber" value="@Model.CurrentPatient.EmergencyContactNumber" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3 form-group">
+                <label>Doctor Name: </label>
+                <input type="text" class="form-control" name="doctorName" value="@Model.CurrentPatient.DoctorName" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3 form-group">
+                <label>Doctor Number: </label>
+                <input type="tel" class="form-control" name="doctorNumber" value="@Model.CurrentPatient.DoctorNumber" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 offset-md-3">
+                <button type="button" class="btn btn-secondary" onclick="location.href = '/PatientsDirectory/Index'">CANCEL</button>
+                <button type="submit" class="btn btn-primary">SAVE PATIENT</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="patientID" value="@Model.CurrentPatient.PatientID" />
+</form>
+

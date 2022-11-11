@@ -1,0 +1,92 @@
+﻿@model PatientDirectoyViewModel
+@using PatientDirectory.DataAccess.Models
+@using PatientDirectory.Models
+
+@{
+    ViewData["Title"] = "Patient Directory";
+}
+
+<script type="text/javascript">
+    function openLocation(url) {
+        window.location.href = url;
+    }
+
+    function confirmDelete(id) {
+        $("#hdnDeletePatientId").val(id);
+        openModal("deleteModal");
+    }
+
+    function cancelDelete() {
+        $("#hdnDeletePatientId").val(0);
+        closeModal("deleteModal");
+    }
+
+    function deletePatient() {
+        var id = $("#hdnDeletePatientId").val();
+        window.location.href = "/PatientsDirectory/Delete/" + id;
+    }
+</script>
+
+<input type="hidden" id="hdnDeletePatientId" value="0" />
+
+<div class="text-center">
+    @if (!String.IsNullOrEmpty(Model.ActionMessage))
+    {
+        string colorClass = Model.IsActionSuccess ? "alert-success" : "alert-danger";
+
+        <div class="alert @colorClass alert-dismissible fade show" role="alert">
+            <strong>@Model.ActionMessage</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <h1 class="display-4">Patients</h1>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table class="table">
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Patient Number</th>
+                    <th>Patient Address</th>
+                    <th>Emergency Conatact</th>
+                    <th>Emergency Conatact Number</th>
+                    <th>Doctor Name</th>
+                    <th>Doctor Number</th>
+                    <th colspan="2"><button type="button" onclick="javascript:openLocation('/PatientsDirectory/Update/0')" class="btn btn-success btn-sm">ADD NEW PATIENT</button></th>
+                </tr>
+
+                @foreach (PatientDirectoryModel patient in Model.PatientList)
+                {
+                    <tr>
+                        <td>@patient.PatientName</td>
+                        <td>@patient.PatientNumber</td>
+                        <td>@patient.PatientAddress</td>
+                        <td>@patient.EmergencyContact</td>
+                        <td>@patient.EmergencyContactNumber</td>
+                        <td>@patient.DoctorName</td>
+                        <td>@patient.DoctorNumber</td>
+                        <td><button type="button" onclick="javascript:openLocation('/PatientsDirectory/Update/@patient.PatientID')" class="btn btn-secondary btn-sm">EDIT</button></td>
+                        <td><button type="button" onclick="javascript:confirmDelete(@patient.PatientID)" class="btn btn-danger btn-sm">DELETE</button></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="deleteModal" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">CONFIRM DELETE</h5>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this patient?</p>
+                <button type="button" onclick="javascript:cancelDelete()" class="btn btn-secondary btn-sm">CANCEL</button>
+                <button type="button" onclick="javascript:deletePatient()" class="btn btn-danger btn-sm">DELETE</button>
+            </div>
+        </div>
+    </div>
+</div>
